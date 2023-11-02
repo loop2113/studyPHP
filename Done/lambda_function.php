@@ -30,22 +30,48 @@
         ]
     ];
 
-
-    function filterAuthor($books, $author){
-        $filteredBooks = [];
-
-        foreach ($books as $book){
-            if($book['author']  === $author){
-                $filteredBooks[] = $book;
+    function filter($items, $fn){
+        $filteredItems = [];
+        
+        foreach($items as $item){
+            if($fn($item)){
+                $filteredItems[] = $item;
             }
         }
-        return $filteredBooks;
+        return $filteredItems;
     }
 
+    // function filter($items, $key, $value) {
+    //     $filteredItems = [];
+
+    //     foreach ($items as $item) {
+    //         if ($item[$key] === $value) {
+    //             $filteredItems[] = $item;
+    //     }
+       
+    // }
+    // return $filteredItems;
+    // }
+    // $filteredBooks = filter($books, 'author', 'Andy Weir');
+    $filteredBooks = filter($books, function($book){
+        return $book["year"] < 2000;
+    });
+ 
+    // $filterAuthor = function ($books, $author){
+    //     $filteredBooks = [];
+    // // LAMBDA
+    //     foreach ($books as $book){
+    //         if($book['author']  === $author){
+    //             $filteredBooks[] = $book;
+    //         }
+    //     }
+    //     return $filteredBooks;
+    // };
+    // $filteredBooks = $filterAuthor($books, 'Phillip K. Dick');
  
     ?>
     <ul>
-        <?php foreach (filterAuthor($books, 'Phillip K. Dick') as $book) : ?>
+        <?php foreach ($filteredBooks as $book) : ?>
             <li>
             <a href="<?= $book['purchaseUrl']; ?>">
             <?= $book['name'];?> (<?= $book['year']; ?>) - By <?= $book['author']; ?>
